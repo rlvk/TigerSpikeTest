@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "FlickrItem.h"
 
 @interface PersistancyManager : NSObject
 - (id)initWithFlickrsArray:(NSArray *)array;
 - (NSArray *)getFlickrs;
-- (void)persistImage:(UIImage*)image withFilename:(NSString*)filename;
-- (UIImage*)getImage:(NSString*)filename;
+- (void)persistImage:(UIImage *)image withFilename:(NSString *)filename;
+- (UIImage *)getImage:(NSString *)filename;
 @end
