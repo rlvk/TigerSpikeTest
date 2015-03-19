@@ -8,6 +8,7 @@
 
 #import "FlickrItem.h"
 #import "NSString+DateConverter.h"
+#import <ImageIO/ImageIO.h>
 
 @implementation FlickrItem
 
@@ -19,6 +20,9 @@
         _dateTaken = [NSString convertDateFromString:[dictionary objectForKey:@"date_taken"]];
         _desc = [dictionary objectForKey:@"description"];
         _author = [dictionary objectForKey:@"author"];
+        //Meta data
+        CGImageSourceRef source = CGImageSourceCreateWithURL( (CFURLRef) [NSURL URLWithString:_mediaLink], NULL);
+        _metaData = (NSDictionary *)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source, 0, NULL));
     }
     return self;
 }
