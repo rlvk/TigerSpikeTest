@@ -11,4 +11,6 @@
 
 @interface WebClient : NSObject
 + (WebClient *)clientSharedInstance;
+- (NSArray*)getFlickers;
+
 @end

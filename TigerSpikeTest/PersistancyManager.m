@@ -15,6 +15,14 @@
 
 @implementation PersistancyManager
 
++ (void)persistObject:(NSDictionary *)response forUrl:(NSString *)url {
+    [[NSUserDefaults standardUserDefaults] setObject:response forKey:url];
+}
+
++ (NSDictionary *)readPersistedObjectForKey:(NSString *)url {
+    return (NSDictionary *)[[NSUserDefaults standardUserDefaults] objectForKey:url];
+}
+
 - (id)initWithFlickrsArray:(NSArray *)array {
     self = [super init];
     if (self) {

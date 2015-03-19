@@ -12,6 +12,7 @@
 #import "FlickrItem.h"
 #import "FlickrView.h"
 #import "WebClient.h"
+#import "PersistancyManager.h"
 
 #define kFlickrURL @"http://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1"
 
@@ -43,6 +44,7 @@
         if (error == nil) {
             NSLog(@"Response %@", json);
             NSArray *responseArray = [json objectForKey:@"items"];
+            [PersistancyManager persistObject:json forUrl:kFlickrURL];
             for (NSDictionary *dict in responseArray) {
                 [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
             }
@@ -51,8 +53,14 @@
             });
         } else {
             NSLog(@"Error %@", error);
+            //Retrieve cached data
+            NSArray *responseArray = [[PersistancyManager readPersistedObjectForKey:kFlickrURL] objectForKey:@"items"];
+            for (NSDictionary *dict in responseArray) {
+                [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
-                [AlertDialog showAlertDialogWithTitle:@"Error" message:error.localizedDescription cancelButtonTitle:@"OK"];
+                [AlertDialog showAlertDialogWithTitle:@"Error" message:@"Internet connection appears to be offline" cancelButtonTitle:@"OK"];
+                [scrollView reload];
             });
         }
     }];
