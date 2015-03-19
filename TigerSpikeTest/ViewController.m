@@ -7,8 +7,13 @@
 //
 
 #import "ViewController.h"
+#import "AlertDialog.h"
 
-@interface ViewController ()
+#define kFlickrURL @"http://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1"
+
+@interface ViewController () {
+    NSURLSession *session;
+}
 
 @end
 
@@ -16,7 +21,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:kFlickrURL] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSLog(@"Response %@", json);
+        if (error == nil) {
+            NSLog(@"Response %@", json);
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"Error %@", error);
+                [AlertDialog showAlertDialogWithTitle:@"Error" message:error.localizedDescription cancelButtonTitle:@"OK"];
+            });
+        }
+    }];
+    [dataTask resume];
+
 }
 
 - (void)didReceiveMemoryWarning {
