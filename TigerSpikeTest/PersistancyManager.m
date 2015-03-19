@@ -27,4 +27,17 @@
     return flickrs;
 }
 
+- (void)persistImage:(UIImage*)image withFilename:(NSString*)filename {
+    filename = [NSHomeDirectory() stringByAppendingFormat:@"/Images/%@", filename];
+    NSData *data = UIImagePNGRepresentation(image);
+    [data writeToFile:filename atomically:YES];
+}
+
+- (UIImage*)getImage:(NSString*)filename {
+    filename = [NSHomeDirectory() stringByAppendingFormat:@"/Images/%@", filename];
+    NSData *data = [NSData dataWithContentsOfFile:filename];
+    UIImage *image = [UIImage imageWithData:data];
+    return image;
+}
+
 @end

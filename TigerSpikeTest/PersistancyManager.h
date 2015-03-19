@@ -11,4 +11,6 @@
 @interface PersistancyManager : NSObject
 - (id)initWithFlickrsArray:(NSArray *)array;
 - (NSArray *)getFlickrs;
+- (void)persistImage:(UIImage*)image withFilename:(NSString*)filename;
+- (UIImage*)getImage:(NSString*)filename;
 @end
