@@ -8,8 +8,8 @@
 
 #import "HorizontalScrollView.h"
 
-#define ITEM_SIZE 100
-#define ITEM_OFFSET 50
+#define ITEM_SIZE 200
+#define ITEM_OFFSET 150
 #define ITEM_PADDING 10
 
 @interface HorizontalScrollView () <UIScrollViewDelegate> {
