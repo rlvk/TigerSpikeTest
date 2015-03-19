@@ -38,6 +38,7 @@
             UIView *view = scrollView.subviews[index];
             if (CGRectContainsPoint(view.frame, location)) {
                 [self.delegate horizontalScroller:self clickedViewAtIndex:index];
+                 [scrollView setContentOffset:CGPointMake(view.frame.origin.x - self.frame.size.width/2 + view.frame.size.width/2, 0) animated:YES];
                 break;
             }
         }
