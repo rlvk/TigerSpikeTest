@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		63542D2F1ABB6A4B000D0972 /* AlertDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 63542D2E1ABB6A4B000D0972 /* AlertDialog.m */; };
+		63542D321ABB6CB9000D0972 /* HorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63542D311ABB6CB9000D0972 /* HorizontalScrollView.m */; };
 		63709AD31ABB64420079674F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63709AD21ABB64420079674F /* main.m */; };
 		63709AD61ABB64420079674F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63709AD51ABB64420079674F /* AppDelegate.m */; };
 		63709AD91ABB64420079674F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63709AD81ABB64420079674F /* ViewController.m */; };
@@ -30,6 +31,8 @@
 /* Begin PBXFileReference section */
 		63542D2D1ABB6A4B000D0972 /* AlertDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertDialog.h; sourceTree = "<group>"; };
 		63542D2E1ABB6A4B000D0972 /* AlertDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertDialog.m; sourceTree = "<group>"; };
+		63542D301ABB6CB9000D0972 /* HorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalScrollView.h; sourceTree = "<group>"; };
+		63542D311ABB6CB9000D0972 /* HorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalScrollView.m; sourceTree = "<group>"; };
 		63709ACD1ABB64420079674F /* TigerSpikeTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TigerSpikeTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63709AD11ABB64420079674F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63709AD21ABB64420079674F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -82,6 +85,8 @@
 		63542D251ABB68BC000D0972 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				63542D301ABB6CB9000D0972 /* HorizontalScrollView.h */,
+				63542D311ABB6CB9000D0972 /* HorizontalScrollView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -259,6 +264,7 @@
 				63542D2F1ABB6A4B000D0972 /* AlertDialog.m in Sources */,
 				63709AD91ABB64420079674F /* ViewController.m in Sources */,
 				63709AD61ABB64420079674F /* AppDelegate.m in Sources */,
+				63542D321ABB6CB9000D0972 /* HorizontalScrollView.m in Sources */,
 				63709AD31ABB64420079674F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
