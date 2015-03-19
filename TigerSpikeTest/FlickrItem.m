@@ -7,6 +7,7 @@
 //
 
 #import "FlickrItem.h"
+#import "NSString+DateConverter.h"
 
 @implementation FlickrItem
 
@@ -15,7 +16,7 @@
         _title = [dictionary objectForKey:@"title"];
         _link = [dictionary objectForKey:@"link"];
         _mediaLink = [[dictionary objectForKey:@"media"] objectForKey:@"m"];
-        _dateTaken = [dictionary objectForKey:@"date_taken"];
+        _dateTaken = [NSString convertDateFromString:[dictionary objectForKey:@"date_taken"]];
         _desc = [dictionary objectForKey:@"description"];
         _author = [dictionary objectForKey:@"author"];
     }

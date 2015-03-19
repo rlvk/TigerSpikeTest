@@ -14,7 +14,8 @@
 @property (strong, readonly) NSString *link;
 @property (strong, readonly) NSString *mediaLink;
 @property (strong, readonly) NSString *desc;
-@property (strong, readonly) NSString *dateTaken;
+@property (strong, readonly) NSDate *dateTaken;
+@property (strong, readonly) NSDate *datePublished;
 @property (strong, readonly) NSString *author;
 
 -(id)initWithDictionary:(NSDictionary *)dictionary;

@@ -13,6 +13,7 @@
 		63542D391ABB6FC6000D0972 /* WebClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 63542D381ABB6FC6000D0972 /* WebClient.m */; };
 		63542D3C1ABB7105000D0972 /* PersistancyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63542D3B1ABB7105000D0972 /* PersistancyManager.m */; };
 		63542D3F1ABB7218000D0972 /* FlickrView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63542D3E1ABB7218000D0972 /* FlickrView.m */; };
+		63542D421ABB7AC7000D0972 /* NSString+DateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 63542D411ABB7AC7000D0972 /* NSString+DateConverter.m */; };
 		63709AD31ABB64420079674F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63709AD21ABB64420079674F /* main.m */; };
 		63709AD61ABB64420079674F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63709AD51ABB64420079674F /* AppDelegate.m */; };
 		63709AD91ABB64420079674F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63709AD81ABB64420079674F /* ViewController.m */; };
@@ -45,6 +46,8 @@
 		63542D3B1ABB7105000D0972 /* PersistancyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistancyManager.m; sourceTree = "<group>"; };
 		63542D3D1ABB7218000D0972 /* FlickrView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrView.h; sourceTree = "<group>"; };
 		63542D3E1ABB7218000D0972 /* FlickrView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrView.m; sourceTree = "<group>"; };
+		63542D401ABB7AC7000D0972 /* NSString+DateConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DateConverter.h"; sourceTree = "<group>"; };
+		63542D411ABB7AC7000D0972 /* NSString+DateConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DateConverter.m"; sourceTree = "<group>"; };
 		63709ACD1ABB64420079674F /* TigerSpikeTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TigerSpikeTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63709AD11ABB64420079674F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63709AD21ABB64420079674F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -114,6 +117,8 @@
 				63542D2E1ABB6A4B000D0972 /* AlertDialog.m */,
 				63542D3A1ABB7105000D0972 /* PersistancyManager.h */,
 				63542D3B1ABB7105000D0972 /* PersistancyManager.m */,
+				63542D401ABB7AC7000D0972 /* NSString+DateConverter.h */,
+				63542D411ABB7AC7000D0972 /* NSString+DateConverter.m */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -289,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63542D421ABB7AC7000D0972 /* NSString+DateConverter.m in Sources */,
 				63542D2F1ABB6A4B000D0972 /* AlertDialog.m in Sources */,
 				63542D3F1ABB7218000D0972 /* FlickrView.m in Sources */,
 				63709AD91ABB64420079674F /* ViewController.m in Sources */,
