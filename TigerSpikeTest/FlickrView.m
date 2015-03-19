@@ -10,6 +10,7 @@
 
 @interface FlickrView() {
     UIImageView *flickrImage;
+    UIActivityIndicatorView *indicator;
 }
 @end
 
@@ -21,6 +22,13 @@
         self.backgroundColor = [UIColor blackColor];
         flickrImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         [self addSubview:flickrImage];
+        indicator = [UIActivityIndicatorView new];
+        indicator.center = self.center;
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        [indicator startAnimating];
+        [self addSubview:indicator];
+        
+        [flickrImage addObserver:self forKeyPath:@"image" options:0 context:nil];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"DownloadFlickrImageNotification"
                                                             object:self
@@ -28,6 +36,17 @@
     }
     return self;
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"image"]) {
+        [indicator stopAnimating];
+    }
+}
+
+- (void)dealloc {
+    [flickrImage removeObserver:self forKeyPath:@"image"];
+}
+
 
 @end
 
