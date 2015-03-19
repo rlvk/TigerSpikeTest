@@ -9,11 +9,14 @@
 #import "ViewController.h"
 #import "AlertDialog.h"
 #import "HorizontalScrollView.h"
+#import "FlickrItem.h"
+#import "FlickrView.h"
+#import "WebClient.h"
 
 #define kFlickrURL @"http://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1"
 
 @interface ViewController () <HorizontalScrollViewDelegate> {
-    NSURLSession *session;
+    WebClient *webClient;
     HorizontalScrollView *scrollView;
 }
 @property (nonatomic, strong) NSMutableArray *flickrArray;
@@ -23,38 +26,46 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    session = [NSURLSession sharedSession];
-    
+    webClient = [WebClient clientSharedInstance];
     self.flickrArray = [NSMutableArray new];
     scrollView = [[HorizontalScrollView alloc] initWithFrame:CGRectMake(0, 250, self.view.frame.size.width, 220)];
     scrollView.backgroundColor = [UIColor blueColor];
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
     
-    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:kFlickrURL] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [self reloadData];
+}
+
+-(void)reloadData {
+    [self.flickrArray removeAllObjects];
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:kFlickrURL] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        NSLog(@"Response %@", json);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error == nil) {
-                NSLog(@"Response %@", json);
-                [scrollView reload];
-            } else {
-                NSLog(@"Error %@", error);
-                [AlertDialog showAlertDialogWithTitle:@"Error" message:error.localizedDescription cancelButtonTitle:@"OK"];
+        if (error == nil) {
+            NSLog(@"Response %@", json);
+            NSArray *responseArray = [json objectForKey:@"items"];
+            for (NSDictionary *dict in responseArray) {
+                [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
             }
-        });
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [scrollView reload];
+            });
+        } else {
+            NSLog(@"Error %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [AlertDialog showAlertDialogWithTitle:@"Error" message:error.localizedDescription cancelButtonTitle:@"OK"];
+            });
+        }
     }];
     [dataTask resume];
-
 }
 
 - (NSInteger)numberOfViewsForHorizontalScroller:(HorizontalScrollView*)scroller {
-    return 5;
+    return self.flickrArray.count;
 }
 
 - (UIView*)horizontalScroller:(HorizontalScrollView*)scroller viewAtIndex:(int)index {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 100)];
-    view.backgroundColor = [UIColor redColor];
+    FlickrItem *flickr = (FlickrItem *)[self.flickrArray objectAtIndex:index];
+    FlickrView *view = [[FlickrView alloc] initWithFrame:CGRectMake(0, 0, 200, 200) andImage:flickr.mediaLink];
     return view;
 }
 

@@ -21,6 +21,10 @@
         self.backgroundColor = [UIColor blackColor];
         flickrImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         [self addSubview:flickrImage];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DownloadFlickrImageNotification"
+                                                            object:self
+                                                          userInfo:@{@"imageView":flickrImage, @"imageURL":image}];
     }
     return self;
 }
