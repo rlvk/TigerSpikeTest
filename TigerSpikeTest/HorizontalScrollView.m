@@ -34,10 +34,12 @@
 - (void)imageTapped:(UITapGestureRecognizer*)gesture {
     CGPoint location = [gesture locationInView:gesture.view];
     for (int index=0; index<[self.delegate numberOfViewsForHorizontalScroller:self]; index++) {
-        UIView *view = scrollView.subviews[index];
-        if (CGRectContainsPoint(view.frame, location)) {
-            [self.delegate horizontalScroller:self clickedViewAtIndex:index];
-            break;
+        if (index < scrollView.subviews.count) {
+            UIView *view = scrollView.subviews[index];
+            if (CGRectContainsPoint(view.frame, location)) {
+                [self.delegate horizontalScroller:self clickedViewAtIndex:index];
+                break;
+            }
         }
     }
 }
