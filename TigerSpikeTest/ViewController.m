@@ -59,6 +59,10 @@
     [dataTask resume];
 }
 
+- (void)horizontalScroller:(HorizontalScrollView *)scroller clickedViewAtIndex:(int)index {
+    NSLog(@"Item clicked %d", index);
+}
+
 - (NSInteger)numberOfViewsForHorizontalScroller:(HorizontalScrollView*)scroller {
     return self.flickrArray.count;
 }

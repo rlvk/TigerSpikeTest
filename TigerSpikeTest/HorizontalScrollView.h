@@ -19,4 +19,5 @@
 @required
 - (NSInteger)numberOfViewsForHorizontalScroller:(HorizontalScrollView *)scroller;
 - (UIView*)horizontalScroller:(HorizontalScrollView *)scroller viewAtIndex:(int)index;
+- (void)horizontalScroller:(HorizontalScrollView *)scroller clickedViewAtIndex:(int)index;
 @end

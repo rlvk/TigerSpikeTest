@@ -25,8 +25,21 @@
         scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         scrollView.delegate = self;
         [self addSubview:scrollView];
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped:)];
+        [scrollView addGestureRecognizer:tapRecognizer];
     }
     return self;
+}
+
+- (void)imageTapped:(UITapGestureRecognizer*)gesture {
+    CGPoint location = [gesture locationInView:gesture.view];
+    for (int index=0; index<[self.delegate numberOfViewsForHorizontalScroller:self]; index++) {
+        UIView *view = scrollView.subviews[index];
+        if (CGRectContainsPoint(view.frame, location)) {
+            [self.delegate horizontalScroller:self clickedViewAtIndex:index];
+            break;
+        }
+    }
 }
 
 - (void)reload {
