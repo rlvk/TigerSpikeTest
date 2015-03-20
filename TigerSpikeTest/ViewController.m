@@ -37,34 +37,41 @@
     [self reloadData];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSuccess:) name:@"FlickrImagesSuccessResponse" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onError:) name:@"FlickrImagesError" object:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(void)reloadData {
     [self.flickrArray removeAllObjects];
-    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:kFlickrURL] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        if (error == nil) {
-            NSLog(@"Response %@", json);
-            NSArray *responseArray = [json objectForKey:@"items"];
-            [PersistancyManager persistObject:json forUrl:kFlickrURL];
-            for (NSDictionary *dict in responseArray) {
-                [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [scrollView reload];
-            });
-        } else {
-            NSLog(@"Error %@", error);
-            //Retrieve cached data
-            NSArray *responseArray = [[PersistancyManager readPersistedObjectForKey:kFlickrURL] objectForKey:@"items"];
-            for (NSDictionary *dict in responseArray) {
-                [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [AlertDialog showAlertDialogWithTitle:@"Error" message:@"Internet connection appears to be offline" cancelButtonTitle:@"OK"];
-                [scrollView reload];
-            });
-        }
-    }];
-    [dataTask resume];
+    [webClient getLatestImages:[NSURL URLWithString:kFlickrURL]];
+}
+
+-(void)onSuccess:(NSNotification*)notification {
+    NSArray *responseArray = notification.userInfo[@"response"];
+    [PersistancyManager persistObject:responseArray forUrl:kFlickrURL];
+    for (NSDictionary *dict in responseArray) {
+        [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [scrollView reload];
+    });
+}
+
+-(void)onError:(NSNotification*)notification {
+    NSArray *responseArray = [PersistancyManager readPersistedObjectForKey:kFlickrURL];
+    for (NSDictionary *dict in responseArray) {
+        [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [AlertDialog showAlertDialogWithTitle:@"Error" message:@"Internet connection appears to be offline" cancelButtonTitle:@"OK"];
+        [scrollView reload];
+    });
 }
 
 - (void)horizontalScroller:(HorizontalScrollView *)scroller clickedViewAtIndex:(int)index {

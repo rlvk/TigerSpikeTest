@@ -11,12 +11,14 @@
 #import "FlickrItem.h"
 
 @interface PersistancyManager : NSObject
-+ (void)persistObject:(NSDictionary *)response forUrl:(NSString *)URL;
-+ (NSDictionary *)readPersistedObjectForKey:(NSString *)URL;
+@property (nonatomic, strong) NSMutableArray *flickrs;
+
++ (void)persistObject:(NSArray *)response forUrl:(NSString *)URL;
++ (NSArray *)readPersistedObjectForKey:(NSString *)URL;
 
 - (id)initWithFlickrsArray:(NSArray *)array;
-- (NSArray *)getFlickrs;
 - (void)persistImage:(UIImage *)image withFilename:(NSString *)filename;
 - (UIImage *)getImage:(NSString *)filename;
+-(NSArray *)sortFlickrsByDateTaken;
 
 @end

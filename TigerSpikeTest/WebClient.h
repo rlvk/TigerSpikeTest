@@ -11,6 +11,5 @@
 
 @interface WebClient : NSObject
 + (WebClient *)clientSharedInstance;
-- (NSArray*)getFlickers;
-
+-(void)getLatestImages:(NSURL *)URL;
 @end

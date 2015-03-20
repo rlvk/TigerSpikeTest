@@ -29,14 +29,28 @@
 - (id)init {
     self = [super init];
     if (self) {
-        persistencyManager = [PersistancyManager new];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadImage:) name:@"DownloadFlickrImageNotification" object:nil];
     }
     return self;
 }
 
-- (NSArray*)getFlickers {
-    return [persistencyManager getFlickrs];
+-(void)getLatestImages:(NSURL *)URL {
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithURL:URL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if (error == nil) {
+            NSArray *array = [json objectForKey:@"items"];
+            persistencyManager = [[PersistancyManager alloc] initWithFlickrsArray:array];
+            NSArray *sortedArray = [persistencyManager sortFlickrsByDateTaken];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"FlickrImagesSuccessResponse"
+                                                                object:self
+                                                              userInfo:@{@"response":sortedArray}];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"FlickrImagesError"
+                                                                object:self
+                                                              userInfo:@{@"error":error}];
+        }
+    }];
+    [dataTask resume];
 }
 
 - (void)downloadImage:(NSNotification*)notification {

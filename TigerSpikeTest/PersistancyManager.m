@@ -8,31 +8,34 @@
 
 #import "PersistancyManager.h"
 
-@interface PersistancyManager () {
-    NSMutableArray *flickrs;
-}
+@interface PersistancyManager ()
+
 @end
 
 @implementation PersistancyManager
 
-+ (void)persistObject:(NSDictionary *)response forUrl:(NSString *)url {
++ (void)persistObject:(NSArray *)response forUrl:(NSString *)url {
     [[NSUserDefaults standardUserDefaults] setObject:response forKey:url];
 }
 
-+ (NSDictionary *)readPersistedObjectForKey:(NSString *)url {
-    return (NSDictionary *)[[NSUserDefaults standardUserDefaults] objectForKey:url];
++ (NSArray *)readPersistedObjectForKey:(NSString *)url {
+    return (NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:url];
 }
 
 - (id)initWithFlickrsArray:(NSArray *)array {
     self = [super init];
     if (self) {
-        flickrs = [NSMutableArray arrayWithArray:array];
+        self.flickrs = [NSMutableArray arrayWithArray:array];
+        [self sortFlickrsByDateTaken];
     }
     return self;
 }
 
-- (NSArray*)getFlickrs {
-    return flickrs;
+-(NSArray *)sortFlickrsByDateTaken {
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"dateTaken" ascending:NO];
+    NSArray *sortDescriptor = [NSArray arrayWithObjects:descriptor, nil];
+    [self.flickrs sortUsingDescriptors:sortDescriptor];
+    return self.flickrs;
 }
 
 - (void)persistImage:(UIImage*)image withFilename:(NSString*)filename {
