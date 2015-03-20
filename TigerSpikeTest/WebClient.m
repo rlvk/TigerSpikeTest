@@ -7,11 +7,8 @@
 //
 
 #import "WebClient.h"
-#import "PersistancyManager.h"
 
-@interface WebClient () {
-    PersistancyManager *persistencyManager;
-}
+@interface WebClient ()
 
 @end
 
@@ -40,8 +37,8 @@
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         if (error == nil) {
             NSArray *array = [json objectForKey:@"items"];
-            persistencyManager = [[PersistancyManager alloc] initWithFlickrsArray:array];
-            NSArray *sortedArray = [persistencyManager sortFlickrsByDateTaken];
+            self.persistencyManager = [[PersistancyManager alloc] initWithFlickrsArray:array];
+            NSArray *sortedArray = [self.persistencyManager sortFlickrsByDateTaken];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"FlickrImagesSuccessResponse"
                                                                 object:self
                                                               userInfo:@{@"response":sortedArray}];
@@ -57,14 +54,14 @@
 //Downloading image from remote URL address
 - (void)downloadImage:(NSNotification*)notification {
     UIImageView *imageView = notification.userInfo[@"imageView"];
-    NSString *coverUrl = notification.userInfo[@"imageURL"];
+    NSString *imageURL = notification.userInfo[@"imageURL"];
     
-    NSURLSessionDownloadTask *getImageTask = [[NSURLSession sharedSession] downloadTaskWithURL:[NSURL URLWithString:coverUrl] completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+    NSURLSessionDownloadTask *getImageTask = [[NSURLSession sharedSession] downloadTaskWithURL:[NSURL URLWithString:imageURL] completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
         
         UIImage *downloadedImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
         dispatch_sync(dispatch_get_main_queue(), ^{
             imageView.image = downloadedImage;
-            [persistencyManager persistImage:downloadedImage withFilename:[coverUrl lastPathComponent]];
+            [self.persistencyManager persistImage:downloadedImage withFilename:[imageURL lastPathComponent]];
         });
     }];
     

@@ -20,6 +20,7 @@
         _dateTaken = [NSString convertDateFromString:[dictionary objectForKey:@"date_taken"]];
         _desc = [dictionary objectForKey:@"description"];
         _author = [dictionary objectForKey:@"author"];
+        _tag = [dictionary objectForKey:@"tags"];
         //Meta data calculation needs to be performed in the background
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             CGImageSourceRef source = CGImageSourceCreateWithURL( (CFURLRef) [NSURL URLWithString:_mediaLink], NULL);

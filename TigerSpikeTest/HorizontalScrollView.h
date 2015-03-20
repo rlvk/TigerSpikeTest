@@ -15,6 +15,7 @@
 @interface HorizontalScrollView : UIView
 @property (weak) id<HorizontalScrollViewDelegate> delegate;
 - (void)reload;
+-(void)scrollToViewAtIndex:(NSInteger)index;
 @end
 
 @protocol HorizontalScrollViewDelegate <NSObject>

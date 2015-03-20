@@ -15,11 +15,14 @@
 #import "PersistancyManager.h"
 
 #define kFlickrURL @"http://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1"
-
-@interface ViewController () <HorizontalScrollViewDelegate, UIActionSheetDelegate> {
+/*
+ * Main ViewController containing horizontal scroll view filled with the images from Flickr API
+ */
+@interface ViewController () <HorizontalScrollViewDelegate, UIActionSheetDelegate, UISearchBarDelegate> {
     WebClient *webClient;
     HorizontalScrollView *scrollView;
     NSInteger selectedIndex;
+    UISearchBar *searchBarView;
 }
 @property (nonatomic, strong) NSMutableArray *flickrArray;
 @end
@@ -34,6 +37,10 @@
     scrollView.backgroundColor = [UIColor blueColor];
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
+    searchBarView = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 60)];
+    searchBarView.placeholder = @"Enter keyword";
+    searchBarView.delegate = self;
+    [self.view addSubview:searchBarView];
     
     [self reloadData];
 }
@@ -53,8 +60,11 @@
     [webClient getLatestImages:[NSURL URLWithString:kFlickrURL]];
 }
 
+#pragma mark - API(Notifications) callback methods
+
 -(void)onSuccess:(NSNotification*)notification {
     NSArray *responseArray = notification.userInfo[@"response"];
+    NSLog(@"Response %@", responseArray);
     [PersistancyManager persistObject:responseArray forUrl:kFlickrURL];
     for (NSDictionary *dict in responseArray) {
         [self.flickrArray addObject:[[FlickrItem alloc] initWithDictionary:dict]];
@@ -75,11 +85,7 @@
     });
 }
 
-- (void)horizontalScroller:(HorizontalScrollView *)scroller clickedViewAtIndex:(int)index {
-    selectedIndex = index;
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"More" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Metadata", nil];
-    [actionSheet showInView:self.view];
-}
+#pragma mark - UIActionSheet delegate methods
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     FlickrItem *selectedItem = [self.flickrArray objectAtIndex:selectedIndex];
@@ -92,14 +98,53 @@
     }
 }
 
+#pragma mark - Horizontal ScrollView delegate methods
+
 - (NSInteger)numberOfViewsForHorizontalScroller:(HorizontalScrollView*)scroller {
     return self.flickrArray.count;
+}
+
+- (void)horizontalScroller:(HorizontalScrollView *)scroller clickedViewAtIndex:(int)index {
+    selectedIndex = index;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"More" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Metadata", nil];
+    [actionSheet showInView:self.view];
 }
 
 - (UIView*)horizontalScroller:(HorizontalScrollView*)scroller viewAtIndex:(int)index {
     FlickrItem *flickr = (FlickrItem *)[self.flickrArray objectAtIndex:index];
     FlickrView *view = [[FlickrView alloc] initWithFrame:CGRectMake(0, 0, 200, 200) andImage:flickr.mediaLink];
     return view;
+}
+
+#pragma mark - UISearchBar delegate methods
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self handleSearch:searchBar];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [self handleSearch:searchBar];
+}
+
+- (void)handleSearch:(UISearchBar *)searchBar {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Search for first occurence
+        for (FlickrItem *flickr in self.flickrArray) {
+            if ([flickr.tag rangeOfString:searchBar.text].location == NSNotFound) {
+                
+            } else {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [scrollView scrollToViewAtIndex:[self.flickrArray indexOfObject:flickr]];
+                     return;
+                 });
+            }
+        }
+    });
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar {
+    [searchBar resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PersistancyManager.h"
 
 @interface WebClient : NSObject
+@property (nonatomic, strong) PersistancyManager *persistencyManager;
 //Singletion for API instance
 + (WebClient *)clientSharedInstance;
 -(void)getLatestImages:(NSURL *)URL;

@@ -19,6 +19,7 @@
 @property (strong, readonly) NSDate *dateTaken;
 @property (strong, readonly) NSDate *datePublished;
 @property (strong, readonly) NSString *author;
+@property (strong, readonly) NSString *tag;
 @property (strong, readonly) NSDictionary *metaData;
 
 -(id)initWithDictionary:(NSDictionary *)dictionary;

@@ -9,7 +9,7 @@
 #import "HorizontalScrollView.h"
 
 #define ITEM_SIZE 200
-#define ITEM_OFFSET 150
+#define ITEM_OFFSET 50
 #define ITEM_PADDING 10
 
 @interface HorizontalScrollView () <UIScrollViewDelegate> {
@@ -38,11 +38,17 @@
             UIView *view = scrollView.subviews[index];
             if (CGRectContainsPoint(view.frame, location)) {
                 [self.delegate horizontalScroller:self clickedViewAtIndex:index];
+                //Centralize selected image
                  [scrollView setContentOffset:CGPointMake(view.frame.origin.x - self.frame.size.width/2 + view.frame.size.width/2, 0) animated:YES];
                 break;
             }
         }
     }
+}
+
+-(void)scrollToViewAtIndex:(NSInteger)index {
+    UIView *view = scrollView.subviews[index];
+        [scrollView setContentOffset:CGPointMake(view.frame.origin.x - self.frame.size.width/2 + view.frame.size.width/2, 0) animated:YES];
 }
 
 - (void)reload {
