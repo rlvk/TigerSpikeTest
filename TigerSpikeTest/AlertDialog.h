@@ -11,4 +11,5 @@
 
 @interface AlertDialog : NSObject
 + (void)showAlertDialogWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelTitle;
++ (void)showAlertViewWithInfo:(NSString *)text;
 @end

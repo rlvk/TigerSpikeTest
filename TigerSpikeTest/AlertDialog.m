@@ -17,4 +17,10 @@
                                           otherButtonTitles:nil];
     [alert show];
 }
+
++ (void)showAlertViewWithInfo:(NSString *)text {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:text message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    alertView.userInteractionEnabled = YES;
+    [alertView show];
+}
 @end

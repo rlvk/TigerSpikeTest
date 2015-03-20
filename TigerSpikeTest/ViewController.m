@@ -16,9 +16,10 @@
 
 #define kFlickrURL @"http://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1"
 
-@interface ViewController () <HorizontalScrollViewDelegate> {
+@interface ViewController () <HorizontalScrollViewDelegate, UIActionSheetDelegate> {
     WebClient *webClient;
     HorizontalScrollView *scrollView;
+    NSInteger selectedIndex;
 }
 @property (nonatomic, strong) NSMutableArray *flickrArray;
 @end
@@ -75,7 +76,21 @@
 }
 
 - (void)horizontalScroller:(HorizontalScrollView *)scroller clickedViewAtIndex:(int)index {
-    NSLog(@"Item clicked %d", index);
+    selectedIndex = index;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"More" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Metadata", nil];
+    [actionSheet showInView:self.view];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    FlickrItem *selectedItem = [self.flickrArray objectAtIndex:selectedIndex];
+    switch (buttonIndex) {
+        case 0:
+            NSLog(@"Show metadata");
+            [AlertDialog showAlertViewWithInfo:[NSString stringWithFormat:@"%@", selectedItem.metaData]];
+            break;
+        default:
+            break;
+    }
 }
 
 - (NSInteger)numberOfViewsForHorizontalScroller:(HorizontalScrollView*)scroller {
