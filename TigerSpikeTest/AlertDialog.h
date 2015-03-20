@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 Raf. All rights reserved.
 //
 
+/*
+ * Helper class for displaying some kind of dialogs
+ */
+
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 

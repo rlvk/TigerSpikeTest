@@ -34,6 +34,7 @@
     return self;
 }
 
+//We download the feed of flickrs and pass the result to the view controller using NSNotificationCenter
 -(void)getLatestImages:(NSURL *)URL {
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithURL:URL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -53,6 +54,7 @@
     [dataTask resume];
 }
 
+//Downloading image from remote URL address
 - (void)downloadImage:(NSNotification*)notification {
     UIImageView *imageView = notification.userInfo[@"imageView"];
     NSString *coverUrl = notification.userInfo[@"imageURL"];

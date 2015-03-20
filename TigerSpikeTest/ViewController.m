@@ -85,7 +85,6 @@
     FlickrItem *selectedItem = [self.flickrArray objectAtIndex:selectedIndex];
     switch (buttonIndex) {
         case 0:
-            NSLog(@"Show metadata");
             [AlertDialog showAlertViewWithInfo:[NSString stringWithFormat:@"%@", selectedItem.metaData]];
             break;
         default:

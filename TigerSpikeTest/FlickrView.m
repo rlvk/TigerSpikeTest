@@ -5,7 +5,9 @@
 //  Created by Rafal Wesolowski on 19/03/2015.
 //  Copyright (c) 2015 Raf. All rights reserved.
 //
-
+/*
+ * View representing single ImageView taken from the Flickr gallery
+ */
 #import "FlickrView.h"
 
 @interface FlickrView() {

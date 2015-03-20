@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WebClient : NSObject
+//Singletion for API instance
 + (WebClient *)clientSharedInstance;
 -(void)getLatestImages:(NSURL *)URL;
 @end
